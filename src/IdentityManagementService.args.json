@@ -1,0 +1,10 @@
+{
+  "FileVersion": 2,
+  "Id": "743a8277-c986-4044-9f2b-3e76a492a18b",
+  "Items": [
+    {
+      "Id": "734ddc05-57e0-4ab7-a908-d5f409111ce4",
+      "Command": "/seed"
+    }
+  ]
+}
