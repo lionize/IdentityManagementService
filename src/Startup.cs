@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
 using TIKSN.Lionize.IdentityManagementService.Data;
 using TIKSN.Lionize.IdentityManagementService.Models;
 
@@ -58,6 +59,8 @@ namespace TIKSN.Lionize.IdentityManagementService
                 iis.AutomaticAuthentication = false;
             });
 
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
             var builder = services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -68,11 +71,11 @@ namespace TIKSN.Lionize.IdentityManagementService
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Configuration"));
+                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Configuration"), sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Operational"));
+                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Operational"), sql => sql.MigrationsAssembly(migrationsAssembly));
 
                     options.EnableTokenCleanup = true;
                 });
