@@ -25,7 +25,7 @@ namespace TIKSN.Lionize.IdentityManagementService
             if (seed)
             {
                 var config = host.Services.GetRequiredService<IConfiguration>();
-                var connectionString = config.GetConnectionString("DefaultConnection");
+                var connectionString = config.GetConnectionString("Users");
                 SeedData.EnsureSeedData(connectionString);
                 return;
             }
