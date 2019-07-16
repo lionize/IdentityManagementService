@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using IdentityManagementService.Models;
+using TIKSN.Lionize.IdentityManagementService.Models;
 
 namespace TIKSN.Lionize.IdentityManagementService.Data
 {
