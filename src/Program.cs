@@ -5,12 +5,10 @@ using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
-using System.Linq;
 using System.Threading.Tasks;
 using TIKSN.Lionize.IdentityManagementService.Data;
 
@@ -36,9 +34,6 @@ namespace TIKSN.Lionize.IdentityManagementService
 
         public static async Task Main(string[] args)
         {
-            var seed = args.Any(x => x == "/seed");
-            if (seed) args = args.Except(new[] { "/seed" }).ToArray();
-
             var host = CreateWebHostBuilder(args).Build();
 
             using (var scope = host.Services.CreateScope())
@@ -54,14 +49,6 @@ namespace TIKSN.Lionize.IdentityManagementService
             using (var scope = host.Services.CreateScope())
             {
                 await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
-            }
-
-            if (seed)
-            {
-                var config = host.Services.GetRequiredService<IConfiguration>();
-                var connectionString = config.GetConnectionString("Users");
-                SeedData.EnsureSeedData(connectionString);
-                return;
             }
 
             host.Run();
