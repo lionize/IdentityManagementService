@@ -86,7 +86,9 @@ namespace TIKSN.Lionize.IdentityManagementService
             }
             else
             {
-                throw new Exception("need to configure key material");
+                //TODO: pass the valid certificate.
+                //throw new Exception("need to configure key material");
+                builder.AddDeveloperSigningCredential();
             }
 
             services.AddAuthentication()
