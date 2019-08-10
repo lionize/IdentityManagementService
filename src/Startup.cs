@@ -61,6 +61,9 @@ namespace TIKSN.Lionize.IdentityManagementService
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
 
+            services.AddApiVersioning();
+            services.AddVersionedApiExplorer();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("1.0", new OpenApiInfo { Title = "Lionize / Identity Management Service", Version = "1.0" });
