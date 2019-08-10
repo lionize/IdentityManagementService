@@ -10,8 +10,6 @@ models:
         type: string
       - name: Password
         type: string
-      - name: PasswordConfirmation
-        type: string
   - name: SignUpResponse
     fields:
       - name: IsError

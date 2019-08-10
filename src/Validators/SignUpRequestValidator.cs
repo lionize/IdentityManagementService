@@ -9,7 +9,6 @@ namespace TIKSN.Lionize.IdentityManagementService.Validators
         {
             RuleFor(x => x.Username).NotNull().NotEmpty();
             RuleFor(x => x.Password).NotNull().NotEmpty();
-            RuleFor(x => x.PasswordConfirmation).NotNull().NotEmpty().Equal(x => x.Password).WithMessage("Password confirmation is incorrect.");
         }
     }
 }
