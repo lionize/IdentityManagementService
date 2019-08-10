@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TIKSN.Lionize.IdentityManagementService.Data;
 using TIKSN.Lionize.IdentityManagementService.Models;
+using TIKSN.Lionize.IdentityManagementService.Services;
 
 namespace TIKSN.Lionize.IdentityManagementService
 {
@@ -112,6 +113,8 @@ namespace TIKSN.Lionize.IdentityManagementService
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 });
+
+            services.AddScoped<IAccountService, AccountService>();
         }
     }
 }
