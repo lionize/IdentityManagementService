@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 using TIKSN.Lionize.IdentityManagementService.Services;
 using TIKSN.Lionize.IdentityManagementService.Validators;
 
-namespace TIKSN.Lionize.IdentityManagementService.Controllers
+namespace TIKSN.Lionize.IdentityManagementService.Controllers.V1
 {
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/{version:apiVersion}/[controller]")]
     [ApiController]
     public class AccountsController
     {
