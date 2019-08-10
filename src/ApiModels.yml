@@ -1,0 +1,23 @@
+---
+namespace:
+  - Lionize
+  - IdentityManagementService
+  - ApiModels
+models:
+  - name: SignUpRequest
+    fields:
+      - name: Username
+        type: string
+      - name: Password
+        type: string
+      - name: PasswordConfirmation
+        type: string
+  - name: SignUpResponse
+    fields:
+      - name: IsError
+        type: boolean
+      - name: IsSuccess
+        type: boolean
+      - name: ErrorMessage
+        type: string
+...
