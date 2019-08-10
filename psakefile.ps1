@@ -10,13 +10,19 @@ Task Pack -Depends Build {
    Exec { docker build -f Dockerfile $src -t $script:latestImageTag }
 }
 
-Task Build -Depends Init,Clean {
+Task Build -Depends TranspileModels {
    $script:publishFolder = Join-Path -Path $script:trashFolder -ChildPath "publish"
 
    New-Item -Path $script:publishFolder -ItemType Directory
    $project = Resolve-Path ".\src\IdentityManagementService.csproj"
    $project = $project.Path
    Exec { dotnet publish $project --output $script:publishFolder }
+}
+
+Task TranspileModels -Depends Init,Clean {
+   $apiModelYaml = (Resolve-Path ".\src\ApiModels.yml").Path
+   $apiModelOutput = Join-Path -Path ".\src\Models" -ChildPath "ApiModels"
+   Exec { smite --input-file $apiModelYaml --lang csharp --output-folder $apiModelOutput }
 }
 
 Task Clean -Depends Init {
