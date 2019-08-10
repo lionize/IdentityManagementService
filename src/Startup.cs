@@ -1,5 +1,5 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved. Licensed under the Apache
+// License, Version 2.0. See LICENSE in the project root for license information.
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.OpenApi.Models;
 using System.Reflection;
 using TIKSN.Lionize.IdentityManagementService.Data;
 using TIKSN.Lionize.IdentityManagementService.Models;
@@ -37,6 +37,13 @@ namespace TIKSN.Lionize.IdentityManagementService
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/1.0/swagger.json", "API 1.0");
+            });
+
             app.UseStaticFiles();
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
@@ -52,6 +59,11 @@ namespace TIKSN.Lionize.IdentityManagementService
                 .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("1.0", new OpenApiInfo { Title = "Lionize / Identity Management Service", Version = "1.0" });
+            });
 
             services.Configure<IISOptions>(iis =>
             {
@@ -94,9 +106,9 @@ namespace TIKSN.Lionize.IdentityManagementService
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to http://localhost:5000/signin-google
+                    // register your IdentityServer with Google at
+                    // https://console.developers.google.com enable the Google+ API set the redirect
+                    // URI to http://localhost:5000/signin-google
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 });
