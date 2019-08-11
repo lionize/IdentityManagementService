@@ -17,6 +17,8 @@ namespace TIKSN.Lionize.IdentityManagementService
 {
     public class Startup
     {
+        private readonly string AllowSpecificCorsOrigins = "_AllowSpecificCorsOrigins_";
+
         public Startup(IConfiguration configuration, IHostingEnvironment environment)
         {
             Configuration = configuration;
@@ -44,6 +46,8 @@ namespace TIKSN.Lionize.IdentityManagementService
             {
                 c.SwaggerEndpoint("/swagger/1.0/swagger.json", "API 1.0");
             });
+
+            app.UseCors(AllowSpecificCorsOrigins);
 
             app.UseStaticFiles();
             app.UseIdentityServer();
@@ -116,6 +120,16 @@ namespace TIKSN.Lionize.IdentityManagementService
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificCorsOrigins,
+                cpbuilder =>
+                {
+                    var origins = Configuration.GetSection("Cors").GetSection("Origins").Get<string[]>();
+                    cpbuilder.WithOrigins(origins);
+                });
+            });
 
             services.AddScoped<IAccountService, AccountService>();
         }
