@@ -16,6 +16,7 @@ using TIKSN.DependencyInjection;
 using TIKSN.Lionize.IdentityManagementService.Data;
 using TIKSN.Lionize.IdentityManagementService.Models;
 using TIKSN.Lionize.IdentityManagementService.Services;
+using TIKSN.Lionize.IdentityManagementService.Shell;
 
 namespace TIKSN.Lionize.IdentityManagementService
 {
@@ -144,6 +145,7 @@ namespace TIKSN.Lionize.IdentityManagementService
             builder.RegisterModule<PlatformModule>();
 
             builder.RegisterType<AccountService>().As<IAccountService>().InstancePerLifetimeScope();
+            builder.RegisterType<ShellCommands>().As<IShellCommands>().SingleInstance();
         }
     }
 }
