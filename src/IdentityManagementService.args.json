@@ -3,6 +3,16 @@
   "Id": "743a8277-c986-4044-9f2b-3e76a492a18b",
   "Items": [
     {
+      "Id": "e23cba15-0171-4703-a1eb-f69f912f1ee4",
+      "Command": "Sha256",
+      "Items": [
+        {
+          "Id": "ef452a1e-ee62-4bdd-840d-90ad77eeb0a7",
+          "Command": "Sha256"
+        }
+      ]
+    },
+    {
       "Id": "de301f11-8005-4dd7-989c-899851cb0648",
       "Command": "AddClientSecret",
       "Items": [
@@ -21,14 +31,6 @@
           "Command": "AddApiSecret --id 1"
         }
       ]
-    },
-    {
-      "Id": "035bb34f-8f3c-4860-b4c8-9836097c5fed",
-      "Command": "help AddClientSecret"
-    },
-    {
-      "Id": "72460ed5-2541-4b8f-b60d-d588e26817a6",
-      "Command": "help AddApiSecret"
     },
     {
       "Id": "765ec68e-5db0-441d-8c45-ea8a5b2bd760",
