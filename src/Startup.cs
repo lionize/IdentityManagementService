@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved. Licensed under the Apache
 // License, Version 2.0. See LICENSE in the project root for license information.
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,7 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
 using System.Reflection;
+using TIKSN.DependencyInjection;
 using TIKSN.Lionize.IdentityManagementService.Data;
 using TIKSN.Lionize.IdentityManagementService.Models;
 using TIKSN.Lionize.IdentityManagementService.Services;
@@ -54,7 +58,7 @@ namespace TIKSN.Lionize.IdentityManagementService
             app.UseMvcWithDefaultRoute();
         }
 
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Users")));
@@ -88,17 +92,17 @@ namespace TIKSN.Lionize.IdentityManagementService
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
             })
-                .AddAspNetIdentity<ApplicationUser>()
-                .AddConfigurationStore(options =>
-                {
-                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Configuration"), sql => sql.MigrationsAssembly(migrationsAssembly));
-                })
-                .AddOperationalStore(options =>
-                {
-                    options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Operational"), sql => sql.MigrationsAssembly(migrationsAssembly));
+            .AddAspNetIdentity<ApplicationUser>()
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Configuration"), sql => sql.MigrationsAssembly(migrationsAssembly));
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Operational"), sql => sql.MigrationsAssembly(migrationsAssembly));
 
-                    options.EnableTokenCleanup = true;
-                });
+                options.EnableTokenCleanup = true;
+            });
 
             if (Environment.IsDevelopment())
             {
@@ -111,15 +115,7 @@ namespace TIKSN.Lionize.IdentityManagementService
                 builder.AddDeveloperSigningCredential();
             }
 
-            services.AddAuthentication()
-                .AddGoogle(options =>
-                {
-                    // register your IdentityServer with Google at
-                    // https://console.developers.google.com enable the Google+ API set the redirect
-                    // URI to http://localhost:5000/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
-                });
+            services.AddAuthentication();
 
             services.AddCors(options =>
             {
@@ -134,7 +130,20 @@ namespace TIKSN.Lionize.IdentityManagementService
                 });
             });
 
-            services.AddScoped<IAccountService, AccountService>();
+            services.AddFrameworkPlatform();
+
+            var containerBuilder = new ContainerBuilder();
+            containerBuilder.Populate(services);
+            ConfigureContainer(containerBuilder);
+
+            return new AutofacServiceProvider(containerBuilder.Build());
+        }
+
+        private void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterModule<PlatformModule>();
+
+            builder.RegisterType<AccountService>().As<IAccountService>().InstancePerLifetimeScope();
         }
     }
 }
