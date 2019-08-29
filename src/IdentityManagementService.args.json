@@ -5,7 +5,12 @@
     {
       "Id": "de301f11-8005-4dd7-989c-899851cb0648",
       "Command": "AddClientSecret",
-      "Items": []
+      "Items": [
+        {
+          "Id": "8a7035b7-c575-407f-8479-320d184ab2b5",
+          "Command": "AddClientSecret --id 1"
+        }
+      ]
     },
     {
       "Id": "8aa11c47-12d2-4237-9333-740adb88829a",
