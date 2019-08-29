@@ -56,14 +56,26 @@ namespace TIKSN.Lionize.IdentityManagementService
 
             await Parser.Default.ParseArguments<AddApiSecretOptions, AddClientSecretOptions>(args)
                 .MapResult(
-                (AddApiSecretOptions options) => Task.CompletedTask,
-                (AddClientSecretOptions options) => Task.CompletedTask,
-                errors =>
-                {
-                    if (!errors.Any(x=> x.StopsProcessing))
-                        return host.RunAsync();
-                    return Task.CompletedTask;
-                });
+                    (AddApiSecretOptions options) =>
+                    {
+                        using (var scope = host.Services.CreateScope())
+                        {
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().AddApiSecretAsync(options);
+                        }
+                    },
+                    (AddClientSecretOptions options) =>
+                    {
+                        using (var scope = host.Services.CreateScope())
+                        {
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().AddClientSecret(options);
+                        }
+                    },
+                    errors =>
+                    {
+                        if (!errors.Any(x => x.StopsProcessing))
+                            return host.RunAsync();
+                        return Task.CompletedTask;
+                    });
         }
     }
 }
