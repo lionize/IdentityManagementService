@@ -50,10 +50,26 @@ namespace TIKSN.Lionize.IdentityManagementService.Shell
             }
         }
 
-        public Task AddClientSecret(AddClientSecretOptions options)
+        public async Task AddClientSecret(AddClientSecretOptions options)
         {
             var originalSecret = CreateOriginalSecret();
-            throw new NotImplementedException();
+
+            try
+            {
+                var client = await _configurationDbContext
+                    .Clients
+                    .Include(x => x.ClientSecrets)
+                    .Where(x => x.Id == options.Id)
+                    .SingleAsync();
+
+                client.ClientSecrets.Add(new ClientSecret { Value = originalSecret.Hashed, Type = IdentityServerConstants.SecretTypes.SharedSecret });
+
+                await _configurationDbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
         }
 
         private OriginalSecret CreateOriginalSecret()
