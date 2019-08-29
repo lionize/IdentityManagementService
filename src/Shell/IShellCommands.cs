@@ -6,6 +6,8 @@ namespace TIKSN.Lionize.IdentityManagementService.Shell
     {
         Task AddApiSecretAsync(AddApiSecretOptions options);
 
-        Task AddClientSecret(AddClientSecretOptions options);
+        Task AddClientSecretAsync(AddClientSecretOptions options);
+
+        Task Sha256Async(Sha256Options options);
     }
 }
