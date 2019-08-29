@@ -72,6 +72,15 @@ namespace TIKSN.Lionize.IdentityManagementService.Shell
             }
         }
 
+        public Task Sha256Async(Sha256Options options)
+        {
+            var originalStringSha256 = options.OriginalSecret.Sha256();
+
+            _logger.LogInformation($"Secret Hash: {originalStringSha256}");
+
+            return Task.CompletedTask;
+        }
+
         private OriginalSecret CreateOriginalSecret()
         {
             _random.NextBytes(_buffer);
