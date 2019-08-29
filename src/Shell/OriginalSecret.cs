@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TIKSN.Lionize.IdentityManagementService.Shell
+﻿namespace TIKSN.Lionize.IdentityManagementService.Shell
 {
     public class OriginalSecret
     {
