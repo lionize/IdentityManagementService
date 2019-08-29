@@ -50,7 +50,7 @@ namespace TIKSN.Lionize.IdentityManagementService.Shell
             }
         }
 
-        public async Task AddClientSecret(AddClientSecretOptions options)
+        public async Task AddClientSecretAsync(AddClientSecretOptions options)
         {
             var originalSecret = CreateOriginalSecret();
 
