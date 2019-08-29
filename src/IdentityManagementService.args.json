@@ -3,6 +3,29 @@
   "Id": "743a8277-c986-4044-9f2b-3e76a492a18b",
   "Items": [
     {
+      "Id": "de301f11-8005-4dd7-989c-899851cb0648",
+      "Command": "AddClientSecret",
+      "Items": []
+    },
+    {
+      "Id": "8aa11c47-12d2-4237-9333-740adb88829a",
+      "Command": "AddApiSecret",
+      "Items": [
+        {
+          "Id": "e60c9fa1-82bb-4bc6-9d96-92dc996aa650",
+          "Command": "AddApiSecret --id 1"
+        }
+      ]
+    },
+    {
+      "Id": "035bb34f-8f3c-4860-b4c8-9836097c5fed",
+      "Command": "help AddClientSecret"
+    },
+    {
+      "Id": "72460ed5-2541-4b8f-b60d-d588e26817a6",
+      "Command": "help AddApiSecret"
+    },
+    {
       "Id": "765ec68e-5db0-441d-8c45-ea8a5b2bd760",
       "Command": "Invalid"
     },
