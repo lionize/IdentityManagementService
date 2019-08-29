@@ -9,8 +9,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System;
 using System.Threading.Tasks;
 using TIKSN.Lionize.IdentityManagementService.Data;
+using TIKSN.Shell;
 
 namespace TIKSN.Lionize.IdentityManagementService
 {
@@ -51,7 +53,20 @@ namespace TIKSN.Lionize.IdentityManagementService
                 await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
             }
 
-            host.Run();
+            if (args.Length == 0)
+            {
+                host.Run();
+            }
+            else if(args.Length == 1 && "shell".Equals(args[0], StringComparison.OrdinalIgnoreCase))
+            {
+                var engine = host.Services.GetRequiredService<IShellCommandEngine>();
+
+                var thisAssembly = typeof(Program).Assembly;
+
+                engine.AddAssembly(thisAssembly);
+
+                await engine.RunAsync();
+            }
         }
     }
 }
