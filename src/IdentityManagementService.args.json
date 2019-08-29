@@ -8,7 +8,11 @@
       "Items": [
         {
           "Id": "ef452a1e-ee62-4bdd-840d-90ad77eeb0a7",
-          "Command": "Sha256"
+          "Command": "Sha256 --originalsecret"
+        },
+        {
+          "Id": "4fd777cc-839b-4306-9b18-eff841d76ffa",
+          "Command": "43xoIIj2QFyvFNevScaPvOFUWNQa4unVwT75TOlG5cmwFyAwcI+BFW4mpkeN52jXSAHbUya58gCTkl5K/PNyaQ=="
         }
       ]
     },
