@@ -67,7 +67,14 @@ namespace TIKSN.Lionize.IdentityManagementService
                     {
                         using (var scope = host.Services.CreateScope())
                         {
-                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().AddClientSecret(options);
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().AddClientSecretAsync(options);
+                        }
+                    },
+                    (Sha256Options options) =>
+                    {
+                        using (var scope = host.Services.CreateScope())
+                        {
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().Sha256Async(options);
                         }
                     },
                     errors =>
