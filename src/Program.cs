@@ -54,7 +54,7 @@ namespace TIKSN.Lionize.IdentityManagementService
                 await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
             }
 
-            await Parser.Default.ParseArguments<AddApiSecretOptions, AddClientSecretOptions>(args)
+            await Parser.Default.ParseArguments<AddApiSecretOptions, AddClientSecretOptions, Sha256Options>(args)
                 .MapResult(
                     (AddApiSecretOptions options) =>
                     {
