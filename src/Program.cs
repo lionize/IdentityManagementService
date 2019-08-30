@@ -1,6 +1,7 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
+﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved. Licensed under the Apache
+// License, Version 2.0. See LICENSE in the project root for license information.
 
+using CommandLine;
 using IdentityServer4.EntityFramework.DbContexts;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -9,8 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
+using System.Linq;
 using System.Threading.Tasks;
 using TIKSN.Lionize.IdentityManagementService.Data;
+using TIKSN.Lionize.IdentityManagementService.Shell;
 
 namespace TIKSN.Lionize.IdentityManagementService
 {
@@ -51,7 +54,35 @@ namespace TIKSN.Lionize.IdentityManagementService
                 await scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.MigrateAsync();
             }
 
-            host.Run();
+            await Parser.Default.ParseArguments<AddApiSecretOptions, AddClientSecretOptions, Sha256Options>(args)
+                .MapResult(
+                    (AddApiSecretOptions options) =>
+                    {
+                        using (var scope = host.Services.CreateScope())
+                        {
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().AddApiSecretAsync(options);
+                        }
+                    },
+                    (AddClientSecretOptions options) =>
+                    {
+                        using (var scope = host.Services.CreateScope())
+                        {
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().AddClientSecretAsync(options);
+                        }
+                    },
+                    (Sha256Options options) =>
+                    {
+                        using (var scope = host.Services.CreateScope())
+                        {
+                            return scope.ServiceProvider.GetRequiredService<IShellCommands>().Sha256Async(options);
+                        }
+                    },
+                    errors =>
+                    {
+                        if (!errors.Any(x => x.StopsProcessing))
+                            return host.RunAsync();
+                        return Task.CompletedTask;
+                    });
         }
     }
 }

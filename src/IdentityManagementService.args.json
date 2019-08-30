@@ -3,8 +3,46 @@
   "Id": "743a8277-c986-4044-9f2b-3e76a492a18b",
   "Items": [
     {
-      "Id": "734ddc05-57e0-4ab7-a908-d5f409111ce4",
-      "Command": "/seed"
+      "Id": "e23cba15-0171-4703-a1eb-f69f912f1ee4",
+      "Command": "Sha256",
+      "Items": [
+        {
+          "Id": "ef452a1e-ee62-4bdd-840d-90ad77eeb0a7",
+          "Command": "Sha256 --originalsecret"
+        },
+        {
+          "Id": "4fd777cc-839b-4306-9b18-eff841d76ffa",
+          "Command": "43xoIIj2QFyvFNevScaPvOFUWNQa4unVwT75TOlG5cmwFyAwcI+BFW4mpkeN52jXSAHbUya58gCTkl5K/PNyaQ=="
+        }
+      ]
+    },
+    {
+      "Id": "de301f11-8005-4dd7-989c-899851cb0648",
+      "Command": "AddClientSecret",
+      "Items": [
+        {
+          "Id": "8a7035b7-c575-407f-8479-320d184ab2b5",
+          "Command": "AddClientSecret --id 1"
+        }
+      ]
+    },
+    {
+      "Id": "8aa11c47-12d2-4237-9333-740adb88829a",
+      "Command": "AddApiSecret",
+      "Items": [
+        {
+          "Id": "e60c9fa1-82bb-4bc6-9d96-92dc996aa650",
+          "Command": "AddApiSecret --id 1"
+        }
+      ]
+    },
+    {
+      "Id": "765ec68e-5db0-441d-8c45-ea8a5b2bd760",
+      "Command": "Invalid"
+    },
+    {
+      "Id": "e34aec25-6896-42c0-adc4-4ff4d004dfad",
+      "Command": "--help"
     }
   ]
 }
