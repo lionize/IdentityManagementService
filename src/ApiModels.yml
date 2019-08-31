@@ -14,8 +14,6 @@ models:
     fields:
       - name: IsError
         type: boolean
-      - name: IsSuccess
-        type: boolean
       - name: ErrorMessage
         type: string
 ...
