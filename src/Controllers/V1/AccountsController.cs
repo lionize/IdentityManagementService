@@ -33,9 +33,9 @@ namespace TIKSN.Lionize.IdentityManagementService.Controllers.V1
                 var result = await accountService.SignUpAsync(request.Username, request.Password, cancellationToken);
 
                 if (result.Succeeded)
-                    return new SignUpResponse { IsSuccess = true, IsError = false, ErrorMessage = string.Empty };
+                    return new SignUpResponse { IsError = false, ErrorMessage = string.Empty };
                 else
-                    return new SignUpResponse { IsSuccess = false, IsError = true, ErrorMessage = result.Errors.First().Description };
+                    return new SignUpResponse { IsError = true, ErrorMessage = result.Errors.First().Description };
             }
             else
             {
