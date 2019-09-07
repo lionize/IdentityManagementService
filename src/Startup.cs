@@ -125,9 +125,12 @@ namespace TIKSN.Lionize.IdentityManagementService
                 {
                     var origins = Configuration.GetSection("Cors").GetSection("Origins").Get<string[]>();
 
-                    cpbuilder.AllowAnyMethod();
-                    cpbuilder.AllowAnyHeader();
-                    cpbuilder.WithOrigins(origins);
+                    if (origins != null)
+                    {
+                        cpbuilder.AllowAnyMethod();
+                        cpbuilder.AllowAnyHeader();
+                        cpbuilder.WithOrigins(origins);
+                    }
                 });
             });
 
