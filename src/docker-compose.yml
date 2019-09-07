@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  identitymanagementservice:
+    image: ${DOCKER_REGISTRY-}identitymanagementservice
+    build:
+      context: .
+      dockerfile: Dockerfile
