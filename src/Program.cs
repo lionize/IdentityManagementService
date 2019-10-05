@@ -1,12 +1,13 @@
 ﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved. Licensed under the Apache
 // License, Version 2.0. See LICENSE in the project root for license information.
 
+using Autofac.Extensions.DependencyInjection;
 using CommandLine;
 using IdentityServer4.EntityFramework.DbContexts;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -19,20 +20,25 @@ namespace TIKSN.Lionize.IdentityManagementService
 {
     public class Program
     {
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        public static IHostBuilder CreateWebHostBuilder(string[] args)
         {
-            return WebHost.CreateDefaultBuilder(args)
-                    .UseStartup<Startup>()
-                    .UseSerilog((context, configuration) =>
-                    {
-                        configuration
-                            .MinimumLevel.Debug()
-                            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                            .MinimumLevel.Override("System", LogEventLevel.Warning)
-                            .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
-                            .Enrich.FromLogContext()
-                            .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate);
-                    });
+            return Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder
+                        .UseStartup<Startup>()
+                        .UseSerilog((context, configuration) =>
+                        {
+                            configuration
+                                .MinimumLevel.Debug()
+                                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                                .MinimumLevel.Override("System", LogEventLevel.Warning)
+                                .MinimumLevel.Override("Microsoft.AspNetCore.Authentication", LogEventLevel.Information)
+                                .Enrich.FromLogContext()
+                                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", theme: AnsiConsoleTheme.Literate);
+                        });
+                });
         }
 
         public static async Task Main(string[] args)
@@ -80,7 +86,10 @@ namespace TIKSN.Lionize.IdentityManagementService
                     errors =>
                     {
                         if (!errors.Any(x => x.StopsProcessing))
+                        {
                             return host.RunAsync();
+                        }
+
                         return Task.CompletedTask;
                     });
         }
