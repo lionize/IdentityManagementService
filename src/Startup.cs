@@ -38,7 +38,6 @@ namespace TIKSN.Lionize.IdentityManagementService
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -68,7 +67,7 @@ namespace TIKSN.Lionize.IdentityManagementService
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddControllers();
 
             services.AddApiVersioning();
             services.AddVersionedApiExplorer();
