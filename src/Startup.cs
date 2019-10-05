@@ -42,18 +42,18 @@ namespace TIKSN.Lionize.IdentityManagementService
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseCors(AllowSpecificCorsOrigins);
+
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/1.0/swagger.json", "API 1.0");
             });
-
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseCors(AllowSpecificCorsOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
