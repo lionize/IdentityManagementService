@@ -2,7 +2,6 @@
 // License, Version 2.0. See LICENSE in the project root for license information.
 
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
-using System;
 using System.Reflection;
 using TIKSN.DependencyInjection;
 using TIKSN.Lionize.IdentityManagementService.Data;
@@ -38,12 +36,17 @@ namespace TIKSN.Lionize.IdentityManagementService
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseCors(AllowSpecificCorsOrigins);
 
             app.UseSwagger();
 
@@ -52,14 +55,18 @@ namespace TIKSN.Lionize.IdentityManagementService
                 c.SwaggerEndpoint("/swagger/1.0/swagger.json", "API 1.0");
             });
 
-            app.UseCors(AllowSpecificCorsOrigins);
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseStaticFiles();
             app.UseIdentityServer();
-            app.UseMvcWithDefaultRoute();
+
+            app.UseEndpoints(opt =>
+            {
+                opt.MapControllers();
+            });
         }
 
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Users")));
@@ -68,7 +75,7 @@ namespace TIKSN.Lionize.IdentityManagementService
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+            services.AddControllers();
 
             services.AddApiVersioning();
             services.AddVersionedApiExplorer();
@@ -135,15 +142,9 @@ namespace TIKSN.Lionize.IdentityManagementService
             });
 
             services.AddFrameworkPlatform();
-
-            var containerBuilder = new ContainerBuilder();
-            containerBuilder.Populate(services);
-            ConfigureContainer(containerBuilder);
-
-            return new AutofacServiceProvider(containerBuilder.Build());
         }
 
-        private void ConfigureContainer(ContainerBuilder builder)
+        public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterModule<PlatformModule>();
 
