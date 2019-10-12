@@ -22,7 +22,7 @@ Task Build -Depends TranspileModels {
 Task TranspileModels -Depends Init,Clean {
    $apiModelYaml = (Resolve-Path ".\src\ApiModels.yml").Path
    $apiModelOutput = Join-Path -Path ".\src\Models" -ChildPath "ApiModels"
-   Exec { smite --input-file $apiModelYaml --lang csharp --output-folder $apiModelOutput }
+   Exec { smite --input-file $apiModelYaml --lang csharp --field property --output-folder $apiModelOutput }
 }
 
 Task Clean -Depends Init {
