@@ -69,7 +69,7 @@ namespace TIKSN.Lionize.IdentityManagementService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Users")));
+                options.UseNpgsql(Configuration.GetConnectionString("Users")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -103,11 +103,11 @@ namespace TIKSN.Lionize.IdentityManagementService
             .AddAspNetIdentity<ApplicationUser>()
             .AddConfigurationStore(options =>
             {
-                options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Configuration"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                options.ConfigureDbContext = b => b.UseNpgsql(Configuration.GetConnectionString("Configuration"), sql => sql.MigrationsAssembly(migrationsAssembly));
             })
             .AddOperationalStore(options =>
             {
-                options.ConfigureDbContext = b => b.UseSqlServer(Configuration.GetConnectionString("Operational"), sql => sql.MigrationsAssembly(migrationsAssembly));
+                options.ConfigureDbContext = b => b.UseNpgsql(Configuration.GetConnectionString("Operational"), sql => sql.MigrationsAssembly(migrationsAssembly));
 
                 options.EnableTokenCleanup = true;
             });
