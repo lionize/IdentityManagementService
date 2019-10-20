@@ -75,7 +75,11 @@ namespace TIKSN.Lionize.IdentityManagementService
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opt =>
+            {
+                opt.JsonSerializerOptions.PropertyNamingPolicy = null;
+                opt.JsonSerializerOptions.DictionaryKeyPolicy = null;
+            });
 
             services.AddApiVersioning();
             services.AddVersionedApiExplorer();
