@@ -7,9 +7,9 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - ConnectionStrings__Users=Server=mssql;Database=IdentityManagementService;User Id=sa;Password=z0aiDwJ0205q37Nr;
-      - ConnectionStrings__Configuration=Server=mssql;Database=IdentityManagementService;User Id=sa;Password=z0aiDwJ0205q37Nr;
-      - ConnectionStrings__Operational=Server=mssql;Database=IdentityManagementService;User Id=sa;Password=z0aiDwJ0205q37Nr;
+      - ConnectionStrings__Users=Host=postgres;Port=5432;Database=IdentityManagement;User Id=postgres;Password=IYmv5OcqEoANcO7s;
+      - ConnectionStrings__Configuration=Host=postgres;Port=5432;Database=IdentityManagement;User Id=postgres;Password=IYmv5OcqEoANcO7s;
+      - ConnectionStrings__Operational=Host=postgres;Port=5432;Database=IdentityManagement;User Id=postgres;Password=IYmv5OcqEoANcO7s;
       - ConnectionStrings__RabbitMQ=rabbitmq://rabbit:EvtNt7PKZqNNT06T@rabbitmq
       - ApiResource__ApiName=habitica-api
       - ApiResource__ApiSecret=43xoIIj2QFyvFNevScaPvOFUWNQa4unVwT75TOlG5cmwFyAwcI+BFW4mpkeN52jXSAHbUya58gCTkl5K/PNyaQ==
