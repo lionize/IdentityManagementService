@@ -81,8 +81,16 @@ namespace TIKSN.Lionize.IdentityManagementService
                 opt.JsonSerializerOptions.DictionaryKeyPolicy = null;
             });
 
-            services.AddApiVersioning();
-            services.AddVersionedApiExplorer();
+            services.AddApiVersioning(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = false;
+                o.ReportApiVersions = true;
+            });
+            services.AddVersionedApiExplorer(o =>
+            {
+                o.AssumeDefaultVersionWhenUnspecified = false;
+                o.SubstituteApiVersionInUrl = true;
+            });
 
             services.AddSwaggerGen(c =>
             {
