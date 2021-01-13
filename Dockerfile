@@ -10,7 +10,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out IdentityManagementService.csproj
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.10
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.11
 WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "TIKSN.Lionize.IdentityManagementService.dll"]
